@@ -23,6 +23,161 @@ All endpoints are prefixed with `/api/users` via the service router. 【F:backen
 | `POST /password-reset/confirm` | Reset the password with a valid token and unlock the account. |
 | `GET /status` | Health probe exposed at the root of the service. |
 
+## Example requests
+The service listens on port `4002` by default. 【F:backend/services/user_service/index.js†L1-L26】
+
+### Register a user
+```bash
+curl -X POST http://localhost:4002/api/users/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "username": "dev_alex",
+    "email": "alex@example.com",
+    "password": "S3cur3!Pass"
+  }'
+```
+
+Successful response (`201 Created`):
+
+```json
+{
+  "message": "User registered successfully.",
+  "user": {
+    "id": "665b4c2f8f720b6f83b7419d",
+    "username": "dev_alex",
+    "email": "alex@example.com",
+    "createdAt": "2024-10-12T14:48:00.000Z",
+    "updatedAt": "2024-10-12T14:48:00.000Z"
+  }
+}
+```
+
+### Log in
+```bash
+curl -X POST http://localhost:4002/api/users/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "alex@example.com",
+    "password": "S3cur3!Pass"
+  }'
+```
+
+Successful response (`200 OK`):
+
+```json
+{
+  "message": "Login successful.",
+  "user": {
+    "id": "665b4c2f8f720b6f83b7419d",
+    "username": "dev_alex",
+    "email": "alex@example.com",
+    "createdAt": "2024-10-12T14:48:00.000Z",
+    "updatedAt": "2024-10-12T15:02:11.000Z"
+  }
+}
+```
+
+### Fetch a user profile
+```bash
+curl http://localhost:4002/api/users/665b4c2f8f720b6f83b7419d
+```
+
+Successful response (`200 OK`):
+
+```json
+{
+  "user": {
+    "id": "665b4c2f8f720b6f83b7419d",
+    "username": "dev_alex",
+    "email": "alex@example.com",
+    "createdAt": "2024-10-12T14:48:00.000Z",
+    "updatedAt": "2024-10-12T15:02:11.000Z"
+  }
+}
+```
+
+### Update an account
+```bash
+curl -X PATCH http://localhost:4002/api/users/665b4c2f8f720b6f83b7419d \
+  -H "Content-Type: application/json" \
+  -d '{
+    "username": "dev_alexander",
+    "password": "N3wP@ssword!"
+  }'
+```
+
+Successful response (`200 OK`):
+
+```json
+{
+  "message": "User updated successfully.",
+  "user": {
+    "id": "665b4c2f8f720b6f83b7419d",
+    "username": "dev_alexander",
+    "email": "alex@example.com",
+    "createdAt": "2024-10-12T14:48:00.000Z",
+    "updatedAt": "2024-10-12T15:30:45.000Z"
+  }
+}
+```
+
+### Delete an account (requires password confirmation)
+```bash
+curl -X DELETE http://localhost:4002/api/users/665b4c2f8f720b6f83b7419d \
+  -H "Content-Type: application/json" \
+  -d '{ "password": "N3wP@ssword!" }'
+```
+
+Successful response (`200 OK`):
+
+```json
+{ "message": "User deleted successfully." }
+```
+
+### Request a password reset
+```bash
+curl -X POST http://localhost:4002/api/users/password-reset/request \
+  -H "Content-Type: application/json" \
+  -d '{ "email": "alex@example.com" }'
+```
+
+Successful response (`200 OK`):
+
+```json
+{
+  "message": "If an account exists for that email, a password reset link has been issued.",
+  "resetToken": "3a0f7b8ccf8042d78ee75c74d0a71b35",
+  "expiresAt": "2024-10-12T15:55:00.000Z"
+}
+```
+
+> In production, `resetToken` and `expiresAt` are omitted from the response body. 【F:backend/services/user_service/src/controllers/UserController.js†L38-L51】
+
+### Confirm a password reset
+```bash
+curl -X POST http://localhost:4002/api/users/password-reset/confirm \
+  -H "Content-Type: application/json" \
+  -d '{
+    "token": "3a0f7b8ccf8042d78ee75c74d0a71b35",
+    "password": "Rest0red!Pass"
+  }'
+```
+
+Successful response (`200 OK`):
+
+```json
+{
+  "message": "Password reset successfully.",
+  "user": {
+    "id": "665b4c2f8f720b6f83b7419d",
+    "username": "dev_alexander",
+    "email": "alex@example.com",
+    "createdAt": "2024-10-12T14:48:00.000Z",
+    "updatedAt": "2024-10-12T15:58:22.000Z"
+  }
+}
+```
+
 ## Architecture
 - **Controller layer** – translates HTTP requests into service calls, standardizes success payloads, and funnels errors through a shared middleware. 【F:backend/services/user_service/src/controllers/UserController.js】
 - **Service layer** – houses business rules for validation, uniqueness checks, credential hashing, login lockouts, and reset workflows. 【F:backend/services/user_service/src/services/UserService.js】
