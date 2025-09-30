@@ -10,6 +10,24 @@ import { Router } from "express";
  */
 
 /**
+ * @typedef UserResponse
+ * @property {User} user.required - Sanitized user information returned by the API
+ * @property {string} [message] - Human readable status message accompanying the response
+ */
+
+/**
+ * @typedef MessageResponse
+ * @property {string} message.required - Human readable status message
+ */
+
+/**
+ * @typedef PasswordResetResponse
+ * @property {string} message.required - Human readable status message
+ * @property {string} [resetToken] - Reset token (returned only in non-production environments)
+ * @property {string} [expiresAt] - Token expiry timestamp (returned only in non-production environments)
+ */
+
+/**
  * @typedef RegisterRequest
  * @property {string} username.required - Desired username (3-30 characters)
  * @property {string} email.required - Valid email address
@@ -52,8 +70,7 @@ export const createUserRouter = (controller) => {
    * POST /api/users/register
    * @summary Register a new user account
    * @param {RegisterRequest} request.body.required - Registration payload
-   * @return {object} 201 - User successfully registered
-   * @return {User} 201.user - The created user (without sensitive fields)
+   * @return {UserResponse} 201 - User successfully registered
    * @return {object} 400 - Validation failed
    * @return {object} 409 - Email or username already taken
    */
@@ -63,8 +80,7 @@ export const createUserRouter = (controller) => {
    * POST /api/users/login
    * @summary Authenticate a user with email and password
    * @param {LoginRequest} request.body.required - Login credentials
-   * @return {object} 200 - Login successful
-   * @return {User} 200.user - The authenticated user (without sensitive fields)
+   * @return {UserResponse} 200 - Login successful
    * @return {object} 400 - Validation failed
    * @return {object} 401 - Invalid email or password
    * @return {object} 423 - Account temporarily locked due to failed attempts
@@ -75,8 +91,7 @@ export const createUserRouter = (controller) => {
    * GET /api/users/{id}
    * @summary Retrieve a user by their identifier
    * @param {string} id.path.required - The user identifier
-   * @return {object} 200 - Success response
-   * @return {User} 200.user - The requested user
+   * @return {UserResponse} 200 - Success response containing the requested user
    * @return {object} 404 - User not found
    */
   router.get("/:id", controller.getById);
@@ -86,8 +101,7 @@ export const createUserRouter = (controller) => {
    * @summary Update a user profile
    * @param {string} id.path.required - The user identifier
    * @param {UpdateUserRequest} request.body.required - Fields to update
-   * @return {object} 200 - User updated successfully
-   * @return {User} 200.user - The updated user
+   * @return {UserResponse} 200 - User updated successfully
    * @return {object} 400 - Validation failed
    * @return {object} 404 - User not found
    * @return {object} 409 - Email or username conflict
@@ -99,7 +113,7 @@ export const createUserRouter = (controller) => {
    * @summary Delete a user account
    * @param {string} id.path.required - The user identifier
    * @param {DeleteUserRequest} request.body.required - Confirmation payload
-   * @return {object} 200 - User deleted successfully
+   * @return {MessageResponse} 200 - User deleted successfully
    * @return {object} 400 - Password confirmation missing
    * @return {object} 401 - Invalid password
    * @return {object} 404 - User not found
@@ -110,10 +124,7 @@ export const createUserRouter = (controller) => {
    * POST /api/users/password-reset/request
    * @summary Request a password reset email
    * @param {PasswordResetRequest} request.body.required - Password reset request payload
-   * @return {object} 200 - Response indicating whether the request was accepted
-   * @return {string} 200.message - Human readable status message
-   * @return {string} [200.resetToken] - Reset token (returned only in non-production environments)
-   * @return {string} [200.expiresAt] - Token expiry timestamp (returned only in non-production environments)
+   * @return {PasswordResetResponse} 200 - Response indicating whether the request was accepted
    * @return {object} 400 - Invalid email address provided
    */
   router.post("/password-reset/request", controller.requestPasswordReset);
@@ -122,8 +133,7 @@ export const createUserRouter = (controller) => {
    * POST /api/users/password-reset/confirm
    * @summary Reset a user's password using a reset token
    * @param {PasswordResetConfirmRequest} request.body.required - Password reset confirmation payload
-   * @return {object} 200 - Password reset successfully
-   * @return {User} 200.user - The user with the updated password
+   * @return {UserResponse} 200 - Password reset successfully
    * @return {object} 400 - Invalid token or password
    */
   router.post("/password-reset/confirm", controller.resetPassword);
