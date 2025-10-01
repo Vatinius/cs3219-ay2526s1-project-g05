@@ -8,6 +8,7 @@ import {
   errorMiddleware,
 } from "./controllers/UserController.js";
 import { createUserRouter } from "./routes/userRoutes.js";
+import { startSwaggerDocs } from "../../../common_scripts/swagger_docs.js";
 
 export class UserApplication {
   constructor({ port = process.env.USERSERVICEPORT || 4001 } = {}) {
@@ -30,6 +31,13 @@ export class UserApplication {
     app.enable("trust proxy");
     app.use(express.json());
 
+    startSwaggerDocs(app, "User Service API", this.port);
+
+    /**
+     * GET /status
+     * @summary Heartbeat for the user service
+     * @return {object} 200 - success response
+     */
     app.get("/status", (_req, res) => {
       res.json({ status: "User service is running" });
     });
