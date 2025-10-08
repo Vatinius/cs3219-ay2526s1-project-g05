@@ -1,13 +1,7 @@
-import express from "express";
+import { config } from "dotenv";
+import { CollaborationApplication } from "./src/CollaborationApplication.js";
 
-const port = process.env.COLLABORATIONSERVICEPORT || 4004;
+config();
 
-const app = express();
-
-app.get("/status", (req, res) => {
-  res.send("Collaboration service is up and running!");
-});
-
-app.listen(port, () => {
-  console.log(`Collaboration service is running on port ${port}`);
-});
+const application = new CollaborationApplication();
+application.start();
