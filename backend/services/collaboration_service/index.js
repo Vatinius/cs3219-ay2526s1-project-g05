@@ -1,13 +1,26 @@
-import express from "express";
+import { appConfig } from "./src/config/environment.js";
+import { CollaborationServiceApplication } from "./src/application/CollaborationServiceApplication.js";
+import { SessionManager } from "./src/core/session/SessionManager.js";
+import { WebSocketBroadcaster } from "./src/infrastructure/websocket/WebSocketBroadcaster.js";
+import { WebSocketGateway } from "./src/infrastructure/websocket/WebSocketGateway.js";
+import { RoomController } from "./src/controllers/RoomController.js";
 
-const port = process.env.COLLABORATIONSERVICEPORT || 4004;
-
-const app = express();
-
-app.get("/status", (req, res) => {
-  res.send("Collaboration service is up and running!");
+const broadcaster = new WebSocketBroadcaster({ sessionManager: null });
+const sessionManager = new SessionManager({
+  maxParticipants: appConfig.maxParticipants,
+  sessionTimeoutMs: appConfig.sessionTimeoutMs,
+  broadcaster,
 });
 
-app.listen(port, () => {
-  console.log(`Collaboration service is running on port ${port}`);
+broadcaster.sessionManager = sessionManager;
+
+const roomController = new RoomController({ sessionManager });
+const websocketGateway = new WebSocketGateway({ sessionManager });
+
+const application = new CollaborationServiceApplication({
+  port: appConfig.port,
+  roomController,
+  websocketGateway,
 });
+
+application.start();
