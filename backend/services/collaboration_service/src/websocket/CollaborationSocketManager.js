@@ -18,15 +18,15 @@ export class CollaborationSocketManager {
   configureSocket(socket) {
     socket.on("session:join", async (payload = {}, callback) => {
       await this.handleAction(socket, payload, callback, async () => {
-        const { sessionId, userId, displayName } = payload;
+        const { sessionId, userId, username } = payload;
         const session = await this.collaborationService.joinSession(sessionId, {
           userId,
-          displayName,
+          username,
         });
 
         socket.data.sessionId = session.id;
         socket.data.userId = userId;
-        socket.data.displayName = displayName ?? null;
+        socket.data.username = username ?? null;
         socket.data.hasLeft = false;
         socket.join(this.roomName(session.id));
         this.emitSessionState(session);

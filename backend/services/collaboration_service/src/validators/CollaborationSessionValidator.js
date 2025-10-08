@@ -58,9 +58,9 @@ export class CollaborationSessionValidator {
       normalized.roomId = roomId;
     }
 
-    const displayName = this.normalizeString(payload.displayName);
-    if (displayName) {
-      normalized.displayName = displayName;
+    const username = this.normalizeString(payload.username);
+    if (username) {
+      normalized.username = username;
     }
 
     return { errors, normalized };
