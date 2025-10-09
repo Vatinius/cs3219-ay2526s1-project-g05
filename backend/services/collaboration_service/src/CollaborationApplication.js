@@ -1,5 +1,6 @@
 import http from "http";
 import express from "express";
+import cors from "cors";
 import { Server as SocketIOServer } from "socket.io";
 import { MongoClientInstance } from "../../../common_scripts/mongo.js";
 import { startSwaggerDocs } from "../../../common_scripts/swagger_docs.js";
@@ -34,7 +35,11 @@ export class CollaborationApplication {
     const app = express();
     app.enable("trust proxy");
     app.use(express.json());
-
+    app.use(cors({ 
+      origin: process.env.COLLABORATION_CORS_ORIGIN || "http://localhost:5173",
+      credentials: true
+    }));
+    
     startSwaggerDocs(app, "Collaboration Service API", this.port);
 
     app.get("/status", (_req, res) => {

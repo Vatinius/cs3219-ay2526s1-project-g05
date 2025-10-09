@@ -32,6 +32,9 @@ importers:
 
   services/collaboration_service:
     dependencies:
+      cors:
+        specifier: ^2.8.5
+        version: 2.8.5
       dotenv:
         specifier: ^17.2.2
         version: 17.2.2
