@@ -15,11 +15,3 @@ pnpm run dev
 The service listens on the port defined by `COLLABORATIONSERVICEPORT` (defaults to `4004`).
 Swagger documentation is automatically hosted at `/docs`.
 
-## Key capabilities
-
-- Create, join and reconnect to collaboration rooms that support up to two participants.
-- Propagate editor operations with optimistic locking and last-write-wins conflict
-  resolution.
-- Coordinate collaborative question changes that require mutual consent.
-- Gracefully handle disconnects with a five-minute reconnection window.
-- Expose WebSocket channels (via Socket.IO) for real-time updates consumed by the web app.
