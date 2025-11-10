@@ -81,7 +81,7 @@ export default function AIPanel({ setDisplayAIPanel }) {
   useEffect(() => {
     if (!session) return;
     handleGetConversation();
-  }, [session]);
+  }, [session?.id]);
 
   useEffect(() => {
     scrollToBottom();
