@@ -49,7 +49,7 @@ bearerAuth
 
 - application/json
 
-```typescript
+```javascript
 // POST /sessions request body schema
 {
   participants?: string[]
@@ -66,7 +66,7 @@ bearerAuth
 
 `application/json`
 
-```typescript
+```javascript
 {
 }
 ```
@@ -75,7 +75,7 @@ bearerAuth
 
 `application/json`
 
-```typescript
+```javascript
 {
 }
 ```
@@ -84,7 +84,7 @@ bearerAuth
 
 `application/json`
 
-```typescript
+```javascript
 {
 }
 ```
@@ -93,7 +93,7 @@ bearerAuth
 
 `application/json`
 
-```typescript
+```javascript
 {
 }
 ```
@@ -114,7 +114,7 @@ bearerAuth
 
 `application/json`
 
-```typescript
+```javascript
 // Sanitized session object returned by the service.
 {
   // Session identifier (string form of _id).
@@ -188,7 +188,7 @@ bearerAuth
 
 `application/json`
 
-```typescript
+```javascript
 {
 }
 ```
@@ -197,7 +197,7 @@ bearerAuth
 
 `application/json`
 
-```typescript
+```javascript
 {
 }
 ```
@@ -218,7 +218,7 @@ bearerAuth
 
 `application/json`
 
-```typescript
+```javascript
 // POST /sessions/{sessionId}/explain-code return body schema
 {
   // Conversation type
@@ -239,7 +239,7 @@ bearerAuth
 
 `application/json`
 
-```typescript
+```javascript
 {
 }
 ```
@@ -248,7 +248,7 @@ bearerAuth
 
 `application/json`
 
-```typescript
+```javascript
 {
 }
 ```
@@ -277,7 +277,7 @@ bearerAuth
 
 `application/json`
 
-```typescript
+```javascript
 // POST /sessions/{sessionId}/conversation return body schema
 {
   // Conversation type
@@ -298,7 +298,7 @@ bearerAuth
 
 `application/json`
 
-```typescript
+```javascript
 {
 }
 ```
@@ -307,7 +307,7 @@ bearerAuth
 
 `application/json`
 
-```typescript
+```javascript
 {
 }
 ```
@@ -336,7 +336,7 @@ bearerAuth
 
 `application/json`
 
-```typescript
+```javascript
 // POST /sessions/{sessionId}/message return body schema
 {
   // Conversation type
@@ -357,7 +357,7 @@ bearerAuth
 
 `application/json`
 
-```typescript
+```javascript
 {
 }
 ```
@@ -366,7 +366,7 @@ bearerAuth
 
 `application/json`
 
-```typescript
+```javascript
 {
 }
 ```
@@ -386,7 +386,7 @@ bearerAuth
 
 ### #/components/securitySchemes/bearerAuth
 
-```typescript
+```javascript
 {
   "type": "http",
   "scheme": "bearer",
@@ -396,7 +396,7 @@ bearerAuth
 
 ### #/components/schemas/SessionParticipant
 
-```typescript
+```javascript
 // A participant inside a collaboration session.
 {
   // The user identifier.
@@ -420,7 +420,7 @@ bearerAuth
 
 ### #/components/schemas/CursorPosition
 
-```typescript
+```javascript
 // Cursor position object stored per-user in `cursorPositions`.
 {
   // Optional line index.
@@ -434,7 +434,7 @@ bearerAuth
 
 ### #/components/schemas/SessionLastOperation
 
-```typescript
+```javascript
 // Information about the last operation applied to the session.
 {
   // ID of the user who performed the operation.
@@ -452,7 +452,7 @@ bearerAuth
 
 ### #/components/schemas/PendingQuestionChange
 
-```typescript
+```javascript
 // Pending question change proposal for the session.
 {
   // ID of the proposed question.
@@ -469,7 +469,7 @@ bearerAuth
 
 ### #/components/schemas/Session
 
-```typescript
+```javascript
 // Sanitized session object returned by the service.
 {
   // Session identifier (string form of _id).
@@ -541,7 +541,7 @@ bearerAuth
 
 ### #/components/schemas/Conversation
 
-```typescript
+```javascript
 // Conversation type
 {
   // The type of the conversation message [e.g., "message", "reasoning"]
@@ -555,7 +555,7 @@ bearerAuth
 
 ### #/components/schemas/sessionsRequest
 
-```typescript
+```javascript
 // POST /sessions request body schema
 {
   participants?: string[]
@@ -568,7 +568,7 @@ bearerAuth
 
 ### #/components/schemas/explainCodeResponse
 
-```typescript
+```javascript
 // POST /sessions/{sessionId}/explain-code return body schema
 {
   // Conversation type
@@ -587,7 +587,7 @@ bearerAuth
 
 ### #/components/schemas/conversationResponse
 
-```typescript
+```javascript
 // POST /sessions/{sessionId}/conversation return body schema
 {
   // Conversation type
@@ -606,7 +606,7 @@ bearerAuth
 
 ### #/components/schemas/customMessageResponse
 
-```typescript
+```javascript
 // POST /sessions/{sessionId}/message return body schema
 {
   // Conversation type
