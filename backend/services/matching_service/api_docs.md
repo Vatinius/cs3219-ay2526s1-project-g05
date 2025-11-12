@@ -6,23 +6,23 @@ Add your description
 
 ## Path Table
 
-| Method | Path | Description |
-| --- | --- | --- |
-| POST | [/queue](#postqueue) | Enters a user into the matching queue. |
-| GET | [/status/?token={token}](#getstatustokentoken) | Creates a Server-Sent Events (SSE) connection for real-time match status updates. |
-| POST | [/cancel](#postcancel) | Cancels the session, removing it from the queue and any pending match states. |
-| POST | [/confirm](#postconfirm) | Confirms participation in a pending match (Three-Way Handshake step 2). |
-| GET | [/is_in_queue_match](#getis_in_queue_match) | Checks if the currently authenticated user is in the queue or in a pending match. |
+| Method | Path                                           | Description                                                                       |
+| ------ | ---------------------------------------------- | --------------------------------------------------------------------------------- |
+| POST   | [/queue](#postqueue)                           | Enters a user into the matching queue.                                            |
+| GET    | [/status/?token={token}](#getstatustokentoken) | Creates a Server-Sent Events (SSE) connection for real-time match status updates. |
+| POST   | [/cancel](#postcancel)                         | Cancels the session, removing it from the queue and any pending match states.     |
+| POST   | [/confirm](#postconfirm)                       | Confirms participation in a pending match (Three-Way Handshake step 2).           |
+| GET    | [/is_in_queue_match](#getis_in_queue_match)    | Checks if the currently authenticated user is in the queue or in a pending match. |
 
 ## Reference Table
 
-| Name | Path | Description |
-| --- | --- | --- |
-| bearerAuth | [#/components/securitySchemes/bearerAuth](#componentssecurityschemesbearerauth) |  |
-| User | [#/components/schemas/User](#componentsschemasuser) | User object (passed by frontend, authenticated via middleware). |
-| MatchingCriteria | [#/components/schemas/MatchingCriteria](#componentsschemasmatchingcriteria) | Matching criteria object. |
-| QueueRequest | [#/components/schemas/QueueRequest](#componentsschemasqueuerequest) | Request body for entering the queue. |
-| SessionIdRequest | [#/components/schemas/SessionIdRequest](#componentsschemassessionidrequest) | Request body for matching actions (cancel/confirm). |
+| Name             | Path                                                                            | Description                                                     |
+| ---------------- | ------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| bearerAuth       | [#/components/securitySchemes/bearerAuth](#componentssecurityschemesbearerauth) |                                                                 |
+| User             | [#/components/schemas/User](#componentsschemasuser)                             | User object (passed by frontend, authenticated via middleware). |
+| MatchingCriteria | [#/components/schemas/MatchingCriteria](#componentsschemasmatchingcriteria)     | Matching criteria object.                                       |
+| QueueRequest     | [#/components/schemas/QueueRequest](#componentsschemasqueuerequest)             | Request body for entering the queue.                            |
+| SessionIdRequest | [#/components/schemas/SessionIdRequest](#componentsschemassessionidrequest)     | Request body for matching actions (cancel/confirm).             |
 
 ## Path Details
 
@@ -31,13 +31,13 @@ Add your description
 ### [POST]/queue
 
 - Summary  
-Enters a user into the matching queue.
+  Enters a user into the matching queue.
 
 - Description  
-Adds the user to the queue and immediately attempts to find a match. Returns a sessionId for status tracking.
+  Adds the user to the queue and immediately attempts to find a match. Returns a sessionId for status tracking.
 
 - Security  
-bearerAuth  
+  bearerAuth  
 
 #### RequestBody
 
@@ -96,13 +96,13 @@ bearerAuth
 ### [GET]/status/?token={token}
 
 - Summary  
-Creates a Server-Sent Events (SSE) connection for real-time match status updates.
+  Creates a Server-Sent Events (SSE) connection for real-time match status updates.
 
 - Description  
-Keeps the connection open. Sends 'matchFound', 'matchFinalized', 'matchCancelled', 'sessionExpired', or 'rejoinedQueue' events.
+  Keeps the connection open. Sends 'matchFound', 'matchFinalized', 'matchCancelled', 'sessionExpired', or 'rejoinedQueue' events.
 
 - Security  
-bearerAuth  
+  bearerAuth  
 
 #### Parameters(Query)
 
@@ -148,13 +148,13 @@ token: string
 ### [POST]/cancel
 
 - Summary  
-Cancels the session, removing it from the queue and any pending match states.
+  Cancels the session, removing it from the queue and any pending match states.
 
 - Description  
-Used to voluntarily exit the queue or a pending match before confirmation.
+  Used to voluntarily exit the queue or a pending match before confirmation.
 
 - Security  
-bearerAuth  
+  bearerAuth  
 
 #### RequestBody
 
@@ -193,13 +193,13 @@ bearerAuth
 ### [POST]/confirm
 
 - Summary  
-Confirms participation in a pending match (Three-Way Handshake step 2).
+  Confirms participation in a pending match (Three-Way Handshake step 2).
 
 - Description  
-Saves the user's confirmation status. If both users have confirmed, the match is finalized.
+  Saves the user's confirmation status. If both users have confirmed, the match is finalized.
 
 - Security  
-bearerAuth  
+  bearerAuth  
 
 #### RequestBody
 
@@ -238,13 +238,13 @@ bearerAuth
 ### [GET]/is_in_queue_match
 
 - Summary  
-Checks if the currently authenticated user is in the queue or in a pending match.
+  Checks if the currently authenticated user is in the queue or in a pending match.
 
 - Description  
-Used primarily by other services (e.g., User Service) or the client for pre-session checks.
+  Used primarily by other services (e.g., User Service) or the client for pre-session checks.
 
 - Security  
-bearerAuth  
+  bearerAuth  
 
 #### Responses
 

@@ -2,6 +2,8 @@
 
 This module contains code for the `User` micro-service, which serves to retrive questions from the `users_collection`
 
+![](../../../docs/User_Service.drawio.png)
+
 ## 1. Pre-requiesites
 
 - `node 22.19.0 (LTS)`

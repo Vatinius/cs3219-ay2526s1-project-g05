@@ -6,37 +6,37 @@ Account lifecycle, authentication, and profile maintenance endpoints for PeerPre
 
 ## Path Table
 
-| Method | Path | Description |
-| --- | --- | --- |
-| GET | [/status](#getstatus) | Service heartbeat |
-| POST | [/register](#postregister) | Create a new account |
-| POST | [/login](#postlogin) | Issue a session token |
-| GET | [/me](#getme) | Fetch the authenticated user's profile |
-| PATCH | [/me](#patchme) | Update the authenticated user's profile |
-| DELETE | [/me](#deleteme) | Delete the authenticated user's account |
-| GET | [/{id}](#getid) | Fetch a user by ID (token subject must match `id`) |
-| PATCH | [/{id}](#patchid) | Update a user by ID (token subject must match `id`) |
-| DELETE | [/{id}](#deleteid) | Delete a user by ID (token subject must match `id`) |
-| POST | [/password-reset/request](#postpassword-resetrequest) | Request a password reset link |
-| POST | [/password-reset/confirm](#postpassword-resetconfirm) | Complete a password reset |
-| POST | [/add-current-code-runner](#postadd-current-code-runner) | Record the active code runner container for a user |
-| POST | [/add-past-collaboration-session](#postadd-past-collaboration-session) | Append a session to a user's collaboration history |
-| POST | [/update-current-collaboration-session](#postupdate-current-collaboration-session) | Upsert the active collaboration session reference |
+| Method | Path                                                                               | Description                                         |
+| ------ | ---------------------------------------------------------------------------------- | --------------------------------------------------- |
+| GET    | [/status](#getstatus)                                                              | Service heartbeat                                   |
+| POST   | [/register](#postregister)                                                         | Create a new account                                |
+| POST   | [/login](#postlogin)                                                               | Issue a session token                               |
+| GET    | [/me](#getme)                                                                      | Fetch the authenticated user's profile              |
+| PATCH  | [/me](#patchme)                                                                    | Update the authenticated user's profile             |
+| DELETE | [/me](#deleteme)                                                                   | Delete the authenticated user's account             |
+| GET    | [/{id}](#getid)                                                                    | Fetch a user by ID (token subject must match `id`)  |
+| PATCH  | [/{id}](#patchid)                                                                  | Update a user by ID (token subject must match `id`) |
+| DELETE | [/{id}](#deleteid)                                                                 | Delete a user by ID (token subject must match `id`) |
+| POST   | [/password-reset/request](#postpassword-resetrequest)                              | Request a password reset link                       |
+| POST   | [/password-reset/confirm](#postpassword-resetconfirm)                              | Complete a password reset                           |
+| POST   | [/add-current-code-runner](#postadd-current-code-runner)                           | Record the active code runner container for a user  |
+| POST   | [/add-past-collaboration-session](#postadd-past-collaboration-session)             | Append a session to a user's collaboration history  |
+| POST   | [/update-current-collaboration-session](#postupdate-current-collaboration-session) | Upsert the active collaboration session reference   |
 
 ## Reference Table
 
-| Name | Path | Description |
-| --- | --- | --- |
-| bearerAuth | [#/components/securitySchemes/bearerAuth](#componentssecurityschemesbearerauth) | JWT issued by `/login`, supplied via the `Authorization: Bearer <token>` header |
-| User | [#/components/schemas/User](#componentsschemasuser) | Sanitized user resource |
-| ErrorResponse | [#/components/schemas/ErrorResponse](#componentsschemaserrorresponse) | Standard error envelope for validation or domain failures |
+| Name          | Path                                                                            | Description                                                                     |
+| ------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| bearerAuth    | [#/components/securitySchemes/bearerAuth](#componentssecurityschemesbearerauth) | JWT issued by `/login`, supplied via the `Authorization: Bearer <token>` header |
+| User          | [#/components/schemas/User](#componentsschemasuser)                             | Sanitized user resource                                                         |
+| ErrorResponse | [#/components/schemas/ErrorResponse](#componentsschemaserrorresponse)           | Standard error envelope for validation or domain failures                       |
 
 ## Path Details
 
 ### [GET]/status
 
 - Summary  
-Service heartbeat
+  Service heartbeat
 
 - Security  
 
@@ -57,7 +57,7 @@ Service heartbeat
 ### [POST]/register
 
 - Summary  
-Create a user after validating username, email, and password strength
+  Create a user after validating username, email, and password strength
 
 - Security  
 
@@ -107,7 +107,7 @@ ErrorResponse
 ### [POST]/login
 
 - Summary  
-Authenticate via email/password and obtain a signed JWT valid for 24 hours
+  Authenticate via email/password and obtain a signed JWT valid for 24 hours
 
 - Security  
 
@@ -167,10 +167,10 @@ ErrorResponse
 ### [GET]/me
 
 - Summary  
-Return the profile for the token subject
+  Return the profile for the token subject
 
 - Security  
-bearerAuth  
+  bearerAuth  
 
 #### Responses
 
@@ -205,10 +205,10 @@ ErrorResponse
 ### [PATCH]/me
 
 - Summary  
-Update the authenticated user's username, email, or password
+  Update the authenticated user's username, email, or password
 
 - Security  
-bearerAuth  
+  bearerAuth  
 
 #### Request Body
 
@@ -264,10 +264,10 @@ ErrorResponse
 ### [DELETE]/me
 
 - Summary  
-Delete the authenticated account after password confirmation
+  Delete the authenticated account after password confirmation
 
 - Security  
-bearerAuth  
+  bearerAuth  
 
 #### Request Body
 
@@ -320,10 +320,10 @@ ErrorResponse
 ### [GET]/{id}
 
 - Summary  
-Fetch a user profile by MongoDB ObjectId; token subject must match `id`
+  Fetch a user profile by MongoDB ObjectId; token subject must match `id`
 
 - Security  
-bearerAuth  
+  bearerAuth  
 
 #### Responses
 
@@ -366,10 +366,10 @@ ErrorResponse
 ### [PATCH]/{id}
 
 - Summary  
-Update another user document (subject must match `id`)
+  Update another user document (subject must match `id`)
 
 - Security  
-bearerAuth  
+  bearerAuth  
 
 #### Request Body
 
@@ -391,10 +391,10 @@ All responses reuse payloads shown in [`PATCH /me`](#patchme).
 ### [DELETE]/{id}
 
 - Summary  
-Delete a user document by ID (subject must match `id`)
+  Delete a user document by ID (subject must match `id`)
 
 - Security  
-bearerAuth  
+  bearerAuth  
 
 #### Request Body
 
@@ -415,7 +415,7 @@ Payloads reuse the shapes defined in [`DELETE /me`](#deleteme).
 ### [POST]/password-reset/request
 
 - Summary  
-Issue a password reset token if the email exists (response is indistinguishable otherwise)
+  Issue a password reset token if the email exists (response is indistinguishable otherwise)
 
 - Security  
 
@@ -456,7 +456,7 @@ ErrorResponse
 ### [POST]/password-reset/confirm
 
 - Summary  
-Reset the password using the emailed token and unlock the account
+  Reset the password using the emailed token and unlock the account
 
 - Security  
 
@@ -497,10 +497,10 @@ ErrorResponse
 ### [POST]/add-current-code-runner
 
 - Summary  
-Store the container ID of the user's active code runner session (internal use)
+  Store the container ID of the user's active code runner session (internal use)
 
 - Security  
-bearerAuth  
+  bearerAuth  
 
 #### Request Body
 
@@ -536,10 +536,10 @@ bearerAuth
 ### [POST]/add-past-collaboration-session
 
 - Summary  
-Append a collaboration session ID if it is not already recorded
+  Append a collaboration session ID if it is not already recorded
 
 - Security  
-bearerAuth  
+  bearerAuth  
 
 #### Request Body
 
@@ -576,10 +576,10 @@ Error payloads follow `ErrorResponse`.
 ### [POST]/update-current-collaboration-session
 
 - Summary  
-Update or clear the ID of the user's active collaboration session
+  Update or clear the ID of the user's active collaboration session
 
 - Security  
-bearerAuth  
+  bearerAuth  
 
 #### Request Body
 

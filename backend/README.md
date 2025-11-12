@@ -1,3 +1,7 @@
+# Peerprep Backend Service
+
+- The backend uses a micro-service architecure and **pnpm workspaces** to manage everything
+
 # 1. Pre-requisites
 
 - `node 22.19.0 (LTS)`
@@ -7,13 +11,15 @@
 
 # 2. Installation
 
+- We assumed you have already **setup the local Docker containers in the [main README.md](../README.md)**
+
 ## 2.1 Copy .env file
 
 ```
 cp .env.example .env
 ```
 
-- This `.env` file contains the database name MongoDB should use
+- Remember to edit the `OPENAI_API_KEY` variable to use AI features
 
 ## 2.2 Install packages in all services
 
@@ -31,7 +37,16 @@ pnpm run dev
 
 - This triggers the `dev` script in all `services`
 
-## 2.4 Working on an individual Microservice (without starting everything!)
+## 2.4 Seeding the Backend
+
+- If you require test data, a handy seed script is available
+
+```bash
+cd db_management
+pnpm run seed
+```
+
+## 2.5 [Optional] Working on an individual Microservice (without starting everything!)
 
 ```
 cd collaboration_service
