@@ -144,7 +144,7 @@ cp .env.prod.example .env.prod
 ## 5.4 Build Containers and Run
 
 ```bash
-docker-compose up -d --build -scale peerprep_user_service=2 --scale peerprep_question_service=2 --scale peerprep_code_execution_service=2
+docker-compose up -d --build --scale peerprep_user_service=2 --scale peerprep_question_service=2 --scale peerprep_code_execution_service=2
 ```
 
 - This spawns 2 user_service, question_service and code_execution_service containers for load-balancing
