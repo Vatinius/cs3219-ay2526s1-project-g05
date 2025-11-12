@@ -258,11 +258,13 @@ export const CollaborationSessionProvider = ({ children }) => {
         ? `${window.location.protocol}//${window.location.host}`
         : COLLABORATION_API_URL,
       {
+        query: { affinity: activeSessionId },
         auth: { token },
         path:
           import.meta.env.MODE === "production"
             ? `${API_BASE_URL}${COLLABORATION_API_URL}/socket.io`
             : "/socket.io",
+        transports: ["websocket"],
         autoConnect: true,
         reconnection: true,
       },
