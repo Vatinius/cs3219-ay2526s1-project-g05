@@ -37,5 +37,3 @@ pnpm run test
 ## 6. API Docs
 
 - Refer to [api_docs.md](api_docs.md)
-
-## 7. Schema + Indexes
