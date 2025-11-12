@@ -110,9 +110,9 @@ pnpm run seed
 ## 4.7 Test it out!
 
 - The site is now available at [http://localhost:5173](http://localhost:5173)
-  
+
   - You can try it out with this test seed account:
-  
+
   - ```
     email: test1@mail.com
     password: Testing123!
@@ -144,8 +144,11 @@ cp .env.prod.example .env.prod
 ## 5.4 Build Containers and Run
 
 ```bash
-docker-compose up -d --build
+docker-compose up -d --build -scale peerprep_user_service=2 --scale peerprep_question_service=2 --scale peerprep_code_execution_service=2
 ```
+
+- This spawns 2 user_service, question_service and code_execution_service containers for load-balancing
+  - matching_service currently does not support load-balancing
 
 ## 5.5 Seed the Database
 

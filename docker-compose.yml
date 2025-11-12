@@ -1,3 +1,17 @@
+x-collab-base: &collab_base
+  build:
+    context: ./backend
+    dockerfile: ./services/collaboration_service/Dockerfile
+  restart: unless-stopped
+  environment:
+    - NODE_ENV=production
+  networks:
+    - main
+    - internal_mongo_redis
+  depends_on:
+    - peerprep_mongo
+    - peerprep_redis
+
 services:
   peerprep_mongo:
     image: mongo:8.0.14-noble
@@ -48,7 +62,6 @@ services:
     restart: unless-stopped
     environment:
       - NODE_ENV=production
-    container_name: "peerprep_user_service"
     networks:
       - main
       - internal_mongo_redis
@@ -63,7 +76,6 @@ services:
     restart: unless-stopped
     environment:
       - NODE_ENV=production
-    container_name: "peerprep_question_service"
     networks:
       - main
       - internal_mongo_redis
@@ -78,7 +90,6 @@ services:
     restart: unless-stopped
     environment:
       - NODE_ENV=production
-    container_name: "peerprep_matching_service"
     networks:
       - main
       - internal_mongo_redis
@@ -87,20 +98,11 @@ services:
       - peerprep_redis
 
   peerprep_collaboration_service:
-    build:
-      context: ./backend
-      dockerfile: ./services/collaboration_service/Dockerfile
-    restart: unless-stopped
-    environment:
-      - NODE_ENV=production
-    container_name: "peerprep_collaboration_service"
-    networks:
-      - main
-      - internal_mongo_redis
-    depends_on:
-      - peerprep_mongo
-      - peerprep_redis
-  
+    <<: *collab_base
+
+  peerprep_collaboration_service_2:
+    <<: *collab_base
+
   peerprep_code_execution_service:
     build:
       context: ./backend
@@ -108,7 +110,6 @@ services:
     restart: unless-stopped
     environment:
       - NODE_ENV=production
-    container_name: "peerprep_code_execution_service"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock  # Mount Docker socket for Docker-in-Docker
     networks:
