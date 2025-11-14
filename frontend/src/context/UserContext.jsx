@@ -24,14 +24,16 @@ export const UserProvider = ({ children }) => {
   const setUserAndStorage = useCallback(
     (newUser, token = undefined, rememberMe = false) => {
       setUser(newUser);
-      if (typeof token !== "undefined") setToken(token);
+      if (typeof token !== "undefined") {
+        setToken(token);
 
-      const storage = rememberMe ? localStorage : sessionStorage;
-      if (newUser) {
-        storage.setItem("token", token);
-      } else {
-        localStorage.removeItem("token");
-        sessionStorage.removeItem("token");
+        const storage = rememberMe ? localStorage : sessionStorage;
+        if (newUser) {
+          storage.setItem("token", token);
+        } else {
+          localStorage.removeItem("token");
+          sessionStorage.removeItem("token");
+        }
       }
     },
     [setUser, setToken],

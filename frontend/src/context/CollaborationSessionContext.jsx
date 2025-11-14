@@ -76,6 +76,9 @@ export const CollaborationSessionProvider = ({ children }) => {
     setParticipants([]);
     setCursorPositions({});
     setLastConflict(null);
+    setIsJoining(false);
+    setPartnerRequestedLeave(false);
+    setMessages([]);
     versionRef.current = -1;
     sessionIdRef.current = null;
     if (snapshotTimeoutRef.current) {

@@ -39,7 +39,11 @@ export default function AIPanel({ setDisplayAIPanel }) {
       const response = await collaborationApi.explainCode(session?.id);
       setConversation(response.conversation);
     } catch (e) {
-      toast.error("Failed to get code explanation from AI.");
+      if (e.status === 503) {
+        toast.error(e.message);
+      } else {
+        toast.error("Failed to get code explanation from AI.");
+      }
     }
     setIsUpdating(false);
   };
@@ -55,7 +59,11 @@ export default function AIPanel({ setDisplayAIPanel }) {
       setConversation(response.conversation);
       setNewMessage("");
     } catch (e) {
-      toast.error("Failed to send message to AI.");
+      if (e.status === 503) {
+        toast.error(e.message);
+      } else {
+        toast.error("Failed to send message to AI.");
+      }
     }
     setIsUpdating(false);
   };

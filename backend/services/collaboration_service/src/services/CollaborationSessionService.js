@@ -7,7 +7,7 @@ import {
   addUserPastSession,
 } from "../utils/fetchRequests.js";
 import { parseDate } from "../utils/misc.js";
-import OpenAI from "openai";
+import OpenAI, { BadRequestError } from "openai";
 
 const MAX_PARTICIPANTS = 2;
 const DEFAULT_LANGUAGE = "javascript";
@@ -814,13 +814,25 @@ export class CollaborationSessionService {
       role: "user",
       content: message,
     });
-    const response = await this.openaiClient.responses.create({
-      model: "gpt-5-nano",
-      instructions: "You are a patient, technically strong coding assistant.",
-      input: message,
-      conversation: conversationId,
-      max_output_tokens: 2000,
-    });
+
+    let response;
+    try {
+      response = await this.openaiClient.responses.create({
+        model: "gpt-5-nano",
+        instructions: "You are a patient, technically strong coding assistant.",
+        input: message,
+        conversation: conversationId,
+        max_output_tokens: 2000,
+      });
+    } catch (e) {
+      if (e.code === "conversation_locked") {
+        throw new ApiError(
+          503,
+          `Your partner is currently generating a response. Please try again soon`,
+        );
+      }
+      throw new ApiError(500, `Failed to get response from AI: ${e.message}`);
+    }
 
     conversation.push({
       type: "message",
@@ -860,16 +872,31 @@ ${session.code}`;
       role: "user",
       content: finalInput,
     });
-    const response = await this.openaiClient.responses.create({
-      model: "gpt-5-nano",
-      instructions: `You are a patient, technically strong coding assistant. Your main job is to explain programming questions and solutions clearly, not just give final answers.
+
+    let response;
+    try {
+      response = await this.openaiClient.responses.create({
+        model: "gpt-5-nano",
+        instructions: `You are a patient, technically strong coding assistant. Your main job is to explain programming questions and solutions clearly, not just give final answers.
 When a user asks a question: Limit each explanation to 1,000 words or less. Provide appropriate formatting in markdown, such as headers, code blocks and new lines. 
 The question and the user's query and code will be attached below. Only return the FULL explanation, nothing else.
 `,
-      input: finalInput,
-      conversation: conversationId,
-      max_output_tokens: 2000,
-    });
+        input: finalInput,
+        conversation: conversationId,
+        max_output_tokens: 2000,
+      });
+    } catch (e) {
+      if (e.code === "conversation_locked") {
+        throw new ApiError(
+          503,
+          `Your partner is currently generating a response. Please try again soon`,
+        );
+      }
+      throw new ApiError(
+        500,
+        `Failed to get explanation from AI: ${e.message}`,
+      );
+    }
 
     conversation.push({
       type: "message",
