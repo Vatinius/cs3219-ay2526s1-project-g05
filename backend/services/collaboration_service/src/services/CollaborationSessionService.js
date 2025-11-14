@@ -7,7 +7,7 @@ import {
   addUserPastSession,
 } from "../utils/fetchRequests.js";
 import { parseDate } from "../utils/misc.js";
-import OpenAI, { BadRequestError } from "openai";
+import OpenAI from "openai";
 
 const MAX_PARTICIPANTS = 2;
 const DEFAULT_LANGUAGE = "javascript";
